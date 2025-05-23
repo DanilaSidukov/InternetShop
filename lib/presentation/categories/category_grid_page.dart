@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:internet_shop/presentation/app.dart';
+import 'package:internet_shop/presentation/extensions.dart';
 import 'package:internet_shop/services/categories/categories_service.dart';
 
 import 'components/category_item.dart';
 
 class CategoryGridPage extends StatefulWidget {
-  const CategoryGridPage({super.key, required this.title});
-
-  final String title;
+  const CategoryGridPage({super.key});
 
   @override
   State<CategoryGridPage> createState() => _CategoryGridPageState();
@@ -39,18 +38,18 @@ class _CategoryGridPageState extends State<CategoryGridPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
+        title: Text(context.strings.catalog),
       ),
-      body: _buildBody(),
+      body: _buildBody(context),
     );
   }
 
-  Widget _buildBody() {
+  Widget _buildBody(BuildContext context) {
     if (_isLoading) {
       return const Center(child: CircularProgressIndicator());
     }
     if (_error != null) {
-      return Center(child: Text('Error: $_error'));
+      return Center(child: Text(context.strings.error(_error!)));
     }
 
     final length = _catalogService.categories.length;

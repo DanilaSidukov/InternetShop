@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:internet_shop/presentation/app.dart';
 import 'package:internet_shop/presentation/details/components/product_item.dart';
+import 'package:internet_shop/presentation/extensions.dart';
 import 'package:internet_shop/services/products/details_service.dart';
 
 class DetailsPage extends StatefulWidget {
@@ -69,16 +70,20 @@ class _DetailsPageState extends State<DetailsPage> {
       return const Center(child: CircularProgressIndicator());
     }
     if (_error != null) {
-      return Center(child: Text('Error: $_error'));
+      return Center(child: Text(
+          context.strings.error(_error!)
+      ));
     }
     final product = _detailsService.product;
     return ListView(
       controller: _scrollContainer,
       padding: EdgeInsets.only(
-        left: 20, right: 20,
+        left: _listHorizontalPadding, right: _listHorizontalPadding,
         bottom: MediaQuery.of(context).padding.bottom
       ),
       children: productDetailsItem(context, product)
     );
   }
 }
+
+final double _listHorizontalPadding = 20;

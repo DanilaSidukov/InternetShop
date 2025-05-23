@@ -13,7 +13,6 @@ Widget buildCategoryItem(BuildContext context, Category category) {
           MaterialPageRoute(
               builder: (context) =>
                   ProductGridPage(
-                      title: "Products",
                       categoryId: category.categoryId
                   )
           )
@@ -23,7 +22,7 @@ Widget buildCategoryItem(BuildContext context, Category category) {
       child: Column(
         children: [
           if (category.imageUrl != null)
-            Expanded(  // занимает всё доступное место по вертикали
+            Expanded(
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(_imageRadius),
                 child: Image.network(
@@ -33,7 +32,6 @@ Widget buildCategoryItem(BuildContext context, Category category) {
                 ),
               ),
             ),
-          SizedBox(height: 22),
           Padding(
             padding: const EdgeInsets.all(_textPadding),
             child: Text(

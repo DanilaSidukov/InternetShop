@@ -1,14 +1,14 @@
 
 import 'package:flutter/material.dart';
 import 'package:internet_shop/presentation/app.dart';
+import 'package:internet_shop/presentation/extensions.dart';
 import 'package:internet_shop/services/products/products_service.dart';
 
 import 'components/product_item.dart';
 
 class ProductGridPage extends StatefulWidget {
-  const ProductGridPage({super.key, required this.title, required this.categoryId});
+  const ProductGridPage({super.key, required this.categoryId});
 
-  final String title;
   final int categoryId;
 
   @override
@@ -76,11 +76,8 @@ class _ProductGridPageState extends State<ProductGridPage> {
         },
         child: Scaffold(
           appBar: AppBar(
-              backgroundColor: Theme
-                  .of(context)
-                  .colorScheme
-                  .inversePrimary,
-              title: Text(widget.title)
+              backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+              title: Text(context.strings.products)
           ),
           body: _buildBody(),
         )

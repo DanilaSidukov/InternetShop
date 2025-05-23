@@ -33,6 +33,8 @@ class ProductsService extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Метод для очистки данных, чтобы не пересоздавать экземпляр класса
+  /// и избежать сохранения данных при открытии нового экрана.
   void clearData() {
     _products = [];
     _isLoading = false;

@@ -1,6 +1,7 @@
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:internet_shop/presentation/extensions.dart';
 
 import '../../../models/products/product.dart';
 
@@ -39,7 +40,7 @@ List<Widget> productDetailsItem (BuildContext context, Product? product) {
         heightFactor: _textFraction,
         widthFactor: _textFraction,
         child: Text(
-          "Товар не найден",
+          context.strings.product_not_found,
           style: typography.titleLarge,
         ),
       )

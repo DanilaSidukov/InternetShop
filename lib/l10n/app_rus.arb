@@ -1,0 +1,24 @@
+{
+    "@@locale": "ru",
+    "catalog": "Каталог",
+    "error": "Ошибка: {error}",
+    "@error": {
+        "type": "text",
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "products": "Товары",
+    "product_not_found": "Товар не найден",
+    "price": "{price} руб",
+    "@price": {
+        "type": "text",
+        "placeholder": {
+            "price": {
+                "type": "int"
+            }
+        }
+    }
+}

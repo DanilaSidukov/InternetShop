@@ -1,0 +1,24 @@
+{
+    "@@locale": "en",
+    "catalog": "Catalog",
+    "error": "Error: {error}",
+    "@error": {
+        "type": "text",
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "products": "Products",
+    "product_not_found": "Product not found",
+    "price": "{price} RUB",
+    "@price": {
+        "type": "text",
+        "placeholder": {
+            "price": {
+                "type": "int"
+            }
+        }
+    }
+}

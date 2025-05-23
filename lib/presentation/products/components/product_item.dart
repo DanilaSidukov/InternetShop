@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:internet_shop/models/products/product.dart';
+import 'package:internet_shop/presentation/extensions.dart';
 
 import '../../details/details_page.dart';
 
@@ -48,7 +49,7 @@ Widget productItem(BuildContext context, Product product, bool isLast) {
                 Padding(
                   padding: const EdgeInsets.all(_textPadding),
                   child: Text(
-                    "${product.price} руб",
+                    context.strings.price(product.price),
                     style: typography.titleSmall,
                   ),
                 )
