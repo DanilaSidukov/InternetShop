@@ -1,8 +1,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:internet_shop/presentation/app.dart';
-import 'package:internet_shop/presentation/details/details_page.dart';
 import 'package:internet_shop/services/products/products_service.dart';
+
+import 'components/product_item.dart';
 
 class ProductGridPage extends StatefulWidget {
   const ProductGridPage({super.key, required this.title, required this.categoryId});
@@ -90,65 +91,34 @@ class _ProductGridPageState extends State<ProductGridPage> {
     if (_isLoading) {
       return const Center(child: CircularProgressIndicator());
     }
+    final length = _productsService.products.length;
     return ListView.separated(
       controller: _scrollContainer,
-      padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 12),
-      itemCount: _productsService.products.length + (_hasMore ? 1 : 0),
-      separatorBuilder: (context, index) => const SizedBox(height: 16),
+      padding: const EdgeInsets.symmetric(
+          vertical: _verticalPadding,
+          horizontal: _horizontalPadding
+      ),
+      itemCount: length + (_hasMore ? 1 : 0),
+      separatorBuilder: (context, index) => const SizedBox(
+          height: _separatorHeight
+      ),
       itemBuilder: (BuildContext context, int index) {
         if (index >= _productsService.products.length) {
-          return const Center(child: Padding(
-            padding: EdgeInsets.all(8.0),
-            child: CircularProgressIndicator(),
-          ));
+          return const Center(
+            child: Padding(
+              padding: EdgeInsets.all(_loaderPadding),
+              child: CircularProgressIndicator()
+            )
+          );
         }
         final product = _productsService.products[index];
-        return GestureDetector(
-          onTap: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => DetailsPage(
-                      productId: product.productId,
-                      title: product.title,
-                    )
-                )
-            );
-          },
-          child: Card(
-            child: Column(
-              children: [
-                if (product.imageUrl != null)
-                  SizedBox(
-                    height: 150,
-                    width: double.infinity,
-                    child: Image.network(
-                      product.imageUrl!,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: Text(
-                    product.title,
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: Text(
-                    "${product.price} руб",
-                    style: Theme
-                        .of(context)
-                        .textTheme
-                        .titleSmall,
-                  ),
-                )
-              ],
-            ),
-          )
-        );
+        return productItem(context, product, index >= length - 1);
       },
     );
   }
 }
+
+const double _separatorHeight = 16;
+const double _verticalPadding = 20;
+const double _horizontalPadding = 12;
+const double _loaderPadding = 8.0;

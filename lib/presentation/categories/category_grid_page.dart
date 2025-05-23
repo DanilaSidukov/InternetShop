@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:internet_shop/presentation/app.dart';
-import 'package:internet_shop/presentation/products/products_grid_page.dart';
 import 'package:internet_shop/services/categories/categories_service.dart';
+
+import 'components/category_item.dart';
 
 class CategoryGridPage extends StatefulWidget {
   const CategoryGridPage({super.key, required this.title});
@@ -52,52 +53,26 @@ class _CategoryGridPageState extends State<CategoryGridPage> {
       return Center(child: Text('Error: $_error'));
     }
 
+    final length = _catalogService.categories.length;
+
     return GridView.builder(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(_screenPadding),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        crossAxisSpacing: 10,
-        mainAxisSpacing: 10,
-        childAspectRatio: 0.8,
+        crossAxisCount: _gridLength,
+        crossAxisSpacing: _cellPadding,
+        mainAxisSpacing: _cellPadding,
+        childAspectRatio: _cellRation,
       ),
-      itemCount: _catalogService.categories.length,
+      itemCount: length,
       itemBuilder: (context, index) {
         final category = _catalogService.categories[index];
-        return GestureDetector(
-          onTap: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => ProductGridPage(
-                        title: "Products",
-                        categoryId: category.categoryId
-                    )
-                )
-            );
-          },
-          child: Card(
-            child: Column(
-              children: [
-                if (category.imageUrl != null)
-                  Expanded(
-                    child: Image.network(
-                      category.imageUrl!,
-                      fit: BoxFit.cover,
-                      width: double.infinity,
-                    ),
-                  ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    category.title,
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
+        return buildCategoryItem(context, category);
       },
     );
   }
 }
+
+const int _gridLength = 2;
+const double _cellPadding = 10;
+const double _cellRation = 1.0;
+const double _screenPadding = 16;
