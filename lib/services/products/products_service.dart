@@ -2,6 +2,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:internet_shop/models/products/product.dart';
 import 'package:internet_shop/presentation/app.dart';
+import 'package:internet_shop/services/network/utils/response.dart';
 
 class ProductsService extends ChangeNotifier {
 
@@ -18,19 +19,18 @@ class ProductsService extends ChangeNotifier {
     _isLoading = true;
     notifyListeners();
 
-    try {
-
-      List<Product> newProducts = await _app.productsApi.fetchProducts(
-          categoryId, offset
-      );
-      _products.addAll(newProducts);
-      _error = null;
-    } catch (e) {
-      _error = e.toString();
-    } finally {
-      _isLoading = false;
-      notifyListeners();
+    final result = await _app.productsApi.fetchProducts(
+        categoryId, offset
+    );
+    switch (result) {
+      case Success():
+        _products.addAll(result.data);
+        _error = null;
+      case Error():
+        _error = result.message;
     }
+    _isLoading = false;
+    notifyListeners();
   }
 
   void clearData() {

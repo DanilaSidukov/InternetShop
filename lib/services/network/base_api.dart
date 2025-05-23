@@ -1,5 +1,6 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
+import 'package:internet_shop/services/network/utils/response.dart';
 
 abstract class BaseApi {
   static final String _baseUrl = 'http://onlinestore.whitetigersoft.ru/api/';
@@ -9,7 +10,7 @@ abstract class BaseApi {
     'appKey': dotenv.env['APPKEY']!
   };
 
-  Future<http.Response> get(String endpoint, {Map<String, dynamic>? params}) async {
+  Future<Response> get(String endpoint, {Map<String, dynamic>? params}) async {
     final stringParams = params?.map<String, String>(
           (key, value) => MapEntry(key, value.toString()),
     ) ?? {};
@@ -19,6 +20,11 @@ abstract class BaseApi {
       ...stringParams
     };
     final uri = Uri.parse('$_baseUrl$endpoint').replace(queryParameters: mergedParams);
-    return await http.get(uri);
+    final response = await http.get(uri);
+    if (response.statusCode == 200) {
+      return Success(response.body);
+    } else {
+      return Error('Server error: ${response.statusCode}');
+    }
   }
 }

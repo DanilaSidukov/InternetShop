@@ -20,7 +20,7 @@ class _CategoryGridPageState extends State<CategoryGridPage> {
   @override
   void initState() {
     super.initState();
-    _catalogService = App().catalogDataService;
+    _catalogService = App().categoriesService;
     _loadCategories();
   }
 

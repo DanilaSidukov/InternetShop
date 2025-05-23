@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:internet_shop/presentation/app.dart';
 
 import 'presentation/categories/category_grid_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await loadVariables();
-  final app = App();
-  app.init();
   runApp(const StartWidget());
 }
 

@@ -1,6 +1,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:internet_shop/presentation/app.dart';
+import 'package:internet_shop/services/network/utils/response.dart';
 
 import '../../models/products/product.dart';
 
@@ -19,15 +20,16 @@ class DetailsService extends ChangeNotifier {
     _isLoading = true;
     notifyListeners();
 
-    try {
-      _product = await _app.productsApi.fetchDetails(productId);
-      _error = null;
-    } catch (e) {
-      _error = e.toString();
-    } finally {
-      _isLoading = false;
-      notifyListeners();
+    final result = await _app.productsApi.fetchDetails(productId);
+    switch (result) {
+      case Success():
+        _product = result.data;
+        _error = null;
+      case Error():
+        _error = result.message;
     }
+    _isLoading = false;
+    notifyListeners();
   }
 
   void clearData() {
