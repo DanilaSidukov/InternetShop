@@ -5,7 +5,7 @@ import 'package:internet_shop/services/network/utils/response.dart';
 
 import '../../../models/categories/category.dart';
 
-class CategoryApi extends BaseApi {
+final class CategoryApi extends BaseApi {
 
   static const String _categoriesEndpoint = 'common/category/list';
   Future<Response<List<Category>>> fetchCategories() async {

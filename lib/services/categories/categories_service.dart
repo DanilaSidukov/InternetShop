@@ -1,19 +1,19 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
+import 'package:flutter/foundation.dart' hide Category;
 import 'package:internet_shop/services/network/utils/response.dart';
 
-import '../../models/categories/category.dart' as models;
+import '../../models/categories/category.dart';
 import '../../presentation/app.dart';
 
 class CategoriesService extends ChangeNotifier {
 
   final _app = App();
-  List<models.Category> _categories = [];
+  List<Category> _categories = [];
   bool _isLoading = false;
   String? _error;
 
-  List<models.Category> get categories => _categories;
+  List<Category> get categories => _categories;
   bool get isLoading => _isLoading;
   String? get error => _error;
 

@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:internet_shop/presentation/theme/theme.dart';
 import 'package:internet_shop/src/generated/i18n/app_localizations.dart';
 
 import 'presentation/categories/category_grid_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  debugRepaintRainbowEnabled = true;
   await loadVariables();
   runApp(const StartWidget());
 }
@@ -37,9 +40,8 @@ class StartWidget extends StatelessWidget {
         Locale('en'), // English
         Locale('ru'), // Russian
       ],
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      ),
+      theme: myThemeLight,
+      darkTheme: myThemeDark,
       home: const CategoryGridPage(),
     );
   }

@@ -2,7 +2,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:internet_shop/services/network/utils/response.dart';
 
-abstract class BaseApi {
+abstract base class BaseApi {
   static final String _baseUrl = 'http://onlinestore.whitetigersoft.ru/api/';
 
   Map<String, String> get _defaultParams => {

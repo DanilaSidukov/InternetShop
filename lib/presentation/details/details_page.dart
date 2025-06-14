@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:internet_shop/presentation/app.dart';
 import 'package:internet_shop/presentation/details/components/product_item.dart';
-import 'package:internet_shop/presentation/extensions.dart';
+import 'package:internet_shop/presentation/theme/extensions.dart';
 import 'package:internet_shop/services/products/details_service.dart';
 
 class DetailsPage extends StatefulWidget {
@@ -81,7 +81,7 @@ class _DetailsPageState extends State<DetailsPage> {
         left: _listHorizontalPadding, right: _listHorizontalPadding,
         bottom: MediaQuery.of(context).padding.bottom
       ),
-      children: productDetailsItem(context, product)
+      children: productDetailsItems(context, product)
     );
   }
 }

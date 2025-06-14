@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:internet_shop/presentation/app.dart';
-import 'package:internet_shop/presentation/extensions.dart';
+import 'package:internet_shop/presentation/theme/extensions.dart';
 import 'package:internet_shop/services/categories/categories_service.dart';
 
 import 'components/category_item.dart';
@@ -65,7 +65,7 @@ class _CategoryGridPageState extends State<CategoryGridPage> {
       itemCount: length,
       itemBuilder: (context, index) {
         final category = _catalogService.categories[index];
-        return buildCategoryItem(context, category);
+        return CategoryItem(category);
       },
     );
   }

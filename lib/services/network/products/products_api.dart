@@ -5,7 +5,7 @@ import 'package:internet_shop/models/products/product.dart';
 import 'package:internet_shop/services/network/base_api.dart';
 import 'package:internet_shop/services/network/utils/response.dart';
 
-class ProductsApi extends BaseApi {
+final class ProductsApi extends BaseApi {
 
   static const String _endpoint = 'common/product/';
 
