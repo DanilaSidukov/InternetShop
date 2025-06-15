@@ -5,7 +5,7 @@ import 'package:internet_shop/services/products/products_service.dart';
 
 import '../services/network/categories/category_api.dart';
 
-class App {
+base class App {
   static final App _instance = App._internal();
 
   factory App() => _instance;
@@ -14,13 +14,19 @@ class App {
 
   CategoryApi? _categoryApi;
   CategoriesService? _categoriesService;
-  ProductsApi? _productsApi;
+  ProductsApi? productsApi;
   ProductsService? _productsService;
   DetailsService? _detailsService;
 
-  CategoryApi get categoryApi => _categoryApi ??= CategoryApi();
-  CategoriesService get categoriesService => _categoriesService ??= CategoriesService();
-  ProductsApi get productsApi => _productsApi ??= ProductsApi();
-  ProductsService get productsService => _productsService ??= ProductsService();
-  DetailsService get detailsService => _detailsService ??= DetailsService();
+  ProductsApi get _productsApiData => productsApi ??= ProductsApi();
+
+  CategoriesService get categoriesService => _categoriesService ??= CategoriesService(
+    categoryApi: _categoryApi ??= CategoryApi()
+  );
+  ProductsService get productsService => _productsService ??= ProductsService(
+    productsApi: _productsApiData
+  );
+  DetailsService get detailsService => _detailsService ??= DetailsService(
+    productsApi: _productsApiData
+  );
 }

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:internet_shop/presentation/app.dart';
+import 'package:internet_shop/di/app.dart';
+import 'package:internet_shop/di/extensions.dart';
 import 'package:internet_shop/presentation/theme/extensions.dart';
-import 'package:internet_shop/services/categories/categories_service.dart';
+import 'package:provider/provider.dart';
 
 import 'components/category_item.dart';
 
@@ -13,38 +14,45 @@ class CategoryGridPage extends StatefulWidget {
 }
 
 class _CategoryGridPageState extends State<CategoryGridPage> {
-  late final CategoriesService _catalogService;
   bool _isLoading = false;
   String? _error;
 
   @override
   void initState() {
     super.initState();
-    _catalogService = App().categoriesService;
-    _loadCategories();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _loadCategories();
+    });
   }
 
   Future<void> _loadCategories() async {
     setState(() => _isLoading = true);
-    await _catalogService.fetchCategories();
+    final catalogService = context.provider.categoriesService;
+    await catalogService.fetchCategories();
     setState(() {
       _isLoading = false;
-      _error = _catalogService.error;
+      _error = catalogService.error;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(context.strings.catalog),
-      ),
-      body: _buildBody(context),
+    return Provider<App>(
+      create: (context) => App(),
+      builder: (context, child) {
+        return Scaffold(
+          appBar: AppBar(
+            backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+            title: Text(context.strings.catalog),
+          ),
+          body: _buildBody(context),
+        );
+      },
     );
   }
 
   Widget _buildBody(BuildContext context) {
+    final catalogService = context.provider.categoriesService;
     if (_isLoading) {
       return const Center(child: CircularProgressIndicator());
     }
@@ -52,7 +60,7 @@ class _CategoryGridPageState extends State<CategoryGridPage> {
       return Center(child: Text(context.strings.error(_error!)));
     }
 
-    final length = _catalogService.categories.length;
+    final length = catalogService.categories.length;
 
     return GridView.builder(
       padding: const EdgeInsets.all(_screenPadding),
@@ -64,7 +72,7 @@ class _CategoryGridPageState extends State<CategoryGridPage> {
       ),
       itemCount: length,
       itemBuilder: (context, index) {
-        final category = _catalogService.categories[index];
+        final category = catalogService.categories[index];
         return CategoryItem(category);
       },
     );

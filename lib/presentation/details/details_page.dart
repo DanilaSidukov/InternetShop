@@ -1,10 +1,9 @@
 
 
 import 'package:flutter/material.dart';
-import 'package:internet_shop/presentation/app.dart';
+import 'package:internet_shop/di/extensions.dart';
 import 'package:internet_shop/presentation/details/components/product_item.dart';
 import 'package:internet_shop/presentation/theme/extensions.dart';
-import 'package:internet_shop/services/products/details_service.dart';
 
 class DetailsPage extends StatefulWidget {
   const DetailsPage({
@@ -20,7 +19,6 @@ class DetailsPage extends StatefulWidget {
 
 class _DetailsPageState extends State<DetailsPage> {
 
-  late final DetailsService _detailsService;
   bool _isLoading = false;
   String? _error;
   final ScrollController _scrollContainer = ScrollController();
@@ -28,7 +26,6 @@ class _DetailsPageState extends State<DetailsPage> {
   @override
   void initState() {
     super.initState();
-    _detailsService = App().detailsService;
     _loadDetails(widget.productId);
   }
 
@@ -40,18 +37,20 @@ class _DetailsPageState extends State<DetailsPage> {
 
   Future<void> _loadDetails(int productId) async {
     setState(() => _isLoading = true);
-    await _detailsService.fetchProductDetails(productId);
+    final detailsService = context.provider.detailsService;
+    await detailsService.fetchProductDetails(productId);
     setState(() {
       _isLoading = false;
-      _error = _detailsService.error;
+      _error = detailsService.error;
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    final detailsService = context.provider.detailsService;
     return PopScope(
       onPopInvokedWithResult: (bool didPop, Object? result) => {
-        if (didPop) _detailsService.clearData()
+        if (didPop) detailsService.clearData()
       },
       child: Scaffold(
         appBar: AppBar(
@@ -74,7 +73,8 @@ class _DetailsPageState extends State<DetailsPage> {
           context.strings.error(_error!)
       ));
     }
-    final product = _detailsService.product;
+    final detailsService = context.provider.detailsService;
+    final product = detailsService.product;
     return ListView(
       controller: _scrollContainer,
       padding: EdgeInsets.only(

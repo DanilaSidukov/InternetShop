@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:internet_shop/di/app.dart';
 import 'package:internet_shop/presentation/theme/theme.dart';
 import 'package:internet_shop/src/generated/i18n/app_localizations.dart';
+import 'package:provider/provider.dart';
 
 import 'presentation/categories/category_grid_page.dart';
 
@@ -11,7 +13,13 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   debugRepaintRainbowEnabled = true;
   await loadVariables();
-  runApp(const StartWidget());
+  final app = App();
+  runApp(
+    Provider<App>.value(
+      value: app,
+      child: const StartWidget(),
+    )
+  );
 }
 
 Future loadVariables() async {
