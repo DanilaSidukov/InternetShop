@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:internet_shop/presentation/common/components/loader.dart';
 
 import '../../../models/categories/category.dart';
 import '../../products/products_grid_page.dart';
@@ -37,9 +38,7 @@ final class CategoryItem extends StatelessWidget {
                       child: Image.network(
                         category.imageUrl!,
                         loadingBuilder: (context, child, progress) {
-                          return progress == null
-                              ? child
-                              : const Center(child: CircularProgressIndicator());
+                          return progress == null ? child : const Loader();
                         },
                         fit: BoxFit.cover,
                         width: double.infinity,

@@ -17,7 +17,7 @@ List<Widget> productDetailsItems(BuildContext context, Product? product) {
           height: MediaQuery.of(context).size.height / 3,
           autoPlay: true,
           enableInfiniteScroll: false,
-          viewportFraction: 1.0,
+          viewportFraction: 1/1,
         ),
       ),
       Padding(

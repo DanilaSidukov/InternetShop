@@ -2,19 +2,35 @@
 import 'package:flutter/material.dart';
 import 'package:internet_shop/di/extensions.dart';
 import 'package:internet_shop/presentation/theme/extensions.dart';
+import 'package:internet_shop/services/products/products_service.dart';
+import 'package:provider/provider.dart';
 
 import 'components/product_item.dart';
 
-class ProductGridPage extends StatefulWidget {
-  const ProductGridPage({super.key, required this.categoryId});
-
+class ProductGridPage extends StatelessWidget {
   final int categoryId;
 
+  const ProductGridPage({super.key, required this.categoryId});
+
   @override
-  State<ProductGridPage> createState() => _ProductGridPageState();
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider(
+      create: (context) => context.provider.productsService,
+      child: _ProductGridPageState(categoryId: categoryId)
+    );
+  }
 }
 
-class _ProductGridPageState extends State<ProductGridPage> {
+class _ProductGridPageState extends StatefulWidget {
+  final int categoryId;
+
+  const _ProductGridPageState({required this.categoryId});
+
+  @override
+  State<StatefulWidget> createState() => _ProductGridPageContent();
+}
+
+class _ProductGridPageContent extends State<_ProductGridPageState> {
 
   bool _isLoading = false;
   bool _hasMore = true;
@@ -24,7 +40,9 @@ class _ProductGridPageState extends State<ProductGridPage> {
   void initState() {
     super.initState();
     _scrollContainer.addListener(_scrollListener);
-    _loadProducts();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _loadProducts();
+    });
   }
 
   @override
@@ -42,25 +60,28 @@ class _ProductGridPageState extends State<ProductGridPage> {
   Future<void> _loadProducts() async {
     if (_isLoading || !_hasMore) return;
 
-    final productsService = context.provider.productsService;
+    final productsService = context.read<ProductsService>();
 
     final currentLength = productsService.products.length;
     bool isProductsEmpty = productsService.products.isEmpty;
-    setState(() {if (isProductsEmpty) {
-      _isLoading = true;
-    }});
+    setState(() {
+      if (isProductsEmpty) {
+        _isLoading = true;
+      }
+    });
     await productsService.fetchProducts(
         widget.categoryId,
         currentLength
     );
     setState(() {
       _isLoading = false;
-      _hasMore = productsService.products.length > currentLength;
+      final productsLength = context.read<ProductsService>().products.length;
+      _hasMore = productsLength > currentLength;
       if (productsService.error != null) {
         ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
+            SnackBar(
                 duration: Durations.extralong2,
-                content: Text("Something went wrong")
+                content: Text(context.strings.something_went_wrong)
             )
         );
       }
@@ -69,18 +90,12 @@ class _ProductGridPageState extends State<ProductGridPage> {
 
   @override
   Widget build(BuildContext context) {
-    final productsService = context.provider.productsService;
-    return PopScope(
-        onPopInvokedWithResult: (bool didPop, Object? result) => {
-          if (didPop) productsService.clearData()
-        },
-        child: Scaffold(
-          appBar: AppBar(
-              backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-              title: Text(context.strings.products)
-          ),
-          body: _buildBody(),
-        )
+    return Scaffold(
+      appBar: AppBar(
+          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+          title: Text(context.strings.products)
+      ),
+      body: _buildBody(),
     );
   }
 
@@ -88,8 +103,10 @@ class _ProductGridPageState extends State<ProductGridPage> {
     if (_isLoading) {
       return const Center(child: CircularProgressIndicator());
     }
-    final productsService = context.provider.productsService;
-    final length = productsService.products.length;
+    final products = context.select(
+        (ProductsService service) => service.products
+    );
+    final length = products.length;
     return ListView.separated(
       controller: _scrollContainer,
       padding: const EdgeInsets.symmetric(
@@ -101,7 +118,7 @@ class _ProductGridPageState extends State<ProductGridPage> {
           height: _separatorHeight
       ),
       itemBuilder: (BuildContext context, int index) {
-        if (index >= productsService.products.length) {
+        if (index >= products.length) {
           return const Center(
             child: Padding(
               padding: EdgeInsets.all(_loaderPadding),
@@ -109,7 +126,7 @@ class _ProductGridPageState extends State<ProductGridPage> {
             )
           );
         }
-        final product = productsService.products[index];
+        final product = products[index];
         return ProductItem(product, index >= length - 1);
       },
     );

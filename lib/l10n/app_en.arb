@@ -20,5 +20,6 @@
                 "type": "int"
             }
         }
-    }
+    },
+    "something_went_wrong": "Something went wrong"
 }

@@ -15,18 +15,14 @@ base class App {
   CategoryApi? _categoryApi;
   CategoriesService? _categoriesService;
   ProductsApi? productsApi;
-  ProductsService? _productsService;
-  DetailsService? _detailsService;
-
-  ProductsApi get _productsApiData => productsApi ??= ProductsApi();
 
   CategoriesService get categoriesService => _categoriesService ??= CategoriesService(
     categoryApi: _categoryApi ??= CategoryApi()
   );
-  ProductsService get productsService => _productsService ??= ProductsService(
-    productsApi: _productsApiData
+  ProductsService get productsService => ProductsService(
+    productsApi: productsApi ??= ProductsApi()
   );
-  DetailsService get detailsService => _detailsService ??= DetailsService(
-    productsApi: _productsApiData
+  DetailsService get detailsService =>  DetailsService(
+    productsApi: productsApi ??= ProductsApi()
   );
 }

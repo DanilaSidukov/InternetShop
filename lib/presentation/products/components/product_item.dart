@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:internet_shop/models/products/product.dart';
+import 'package:internet_shop/presentation/common/components/loader.dart';
 import 'package:internet_shop/presentation/theme/extensions.dart';
 
 import '../../details/details_page.dart';
@@ -46,8 +47,11 @@ final class ProductItem extends StatelessWidget {
                           product.imageUrl!,
                           loadingBuilder: (context, child, progress) {
                             return progress == null
-                                ? child
-                                : CircularProgressIndicator();
+                              ? child
+                              : const Loader(
+                                height: _loaderSize,
+                                width: _loaderSize
+                            );
                           },
                           fit: BoxFit.cover,
                         ),
@@ -75,6 +79,7 @@ final class ProductItem extends StatelessWidget {
   }
 }
 
+const double _loaderSize = 50.0;
 final double _imageHeight = 200;
 final double _imageRadius = 6;
 const double _textPadding = 10;
