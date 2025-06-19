@@ -1,15 +1,15 @@
 
 import 'package:flutter/cupertino.dart';
-import 'package:internet_shop/services/network/products/products_api.dart';
-import 'package:internet_shop/services/network/utils/response.dart';
+import 'package:internet_shop/data/repository/details_repository.dart';
 
+import '../../data/network/utils/response.dart';
 import '../../models/products/product.dart';
 
 class DetailsService extends ChangeNotifier {
 
-  final ProductsApi productsApi;
+  final DetailsRepository detailsRepository;
 
-  DetailsService({required this.productsApi});
+  DetailsService({required this.detailsRepository});
 
   Product? _product;
   bool _isLoading = false;
@@ -23,7 +23,7 @@ class DetailsService extends ChangeNotifier {
     _isLoading = true;
     notifyListeners();
 
-    final result = await productsApi.fetchDetails(productId);
+    final result = await detailsRepository.getDetails(productId);
     switch (result) {
       case Success():
         _product = result.data;
@@ -33,13 +33,5 @@ class DetailsService extends ChangeNotifier {
     }
     _isLoading = false;
     notifyListeners();
-  }
-
-  /// Метод для очистки данных, чтобы не пересоздавать экземпляр класса
-  /// и избежать сохранения данных при открытии нового экрана.
-  void clearData() {
-    _product = null;
-    _isLoading = false;
-    _error = null;
   }
 }

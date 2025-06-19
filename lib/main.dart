@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:internet_shop/di/app.dart';
+import 'package:internet_shop/domain/di/app.dart';
 import 'package:internet_shop/presentation/theme/theme.dart';
 import 'package:internet_shop/src/generated/i18n/app_localizations.dart';
 import 'package:provider/provider.dart';

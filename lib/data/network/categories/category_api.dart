@@ -1,9 +1,8 @@
 import 'dart:convert';
 
-import 'package:internet_shop/services/network/base_api.dart';
-import 'package:internet_shop/services/network/utils/response.dart';
-
 import '../../../models/categories/category.dart';
+import '../base_api.dart';
+import '../utils/response.dart';
 
 final class CategoryApi extends BaseApi {
 
