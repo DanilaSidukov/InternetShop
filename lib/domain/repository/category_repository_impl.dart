@@ -1,17 +1,45 @@
 
+import 'package:collection/collection.dart';
+import 'package:internet_shop/domain/db/database_helper.dart';
+
 import '../../data/network/categories/category_api.dart';
 import '../../data/network/utils/response.dart';
 import '../../data/repository/category_repository.dart';
 import '../../models/categories/category.dart';
 
 final class CategoryRepositoryImpl implements CategoryRepository {
-  final CategoryApi categoryApi;
 
-  CategoryRepositoryImpl({required this.categoryApi});
+  final CategoryApi categoryApi;
+  final DatabaseHelper databaseHelper;
+
+  CategoryRepositoryImpl({
+    required this.categoryApi,
+    required this.databaseHelper
+  });
 
   @override
   Future<Response<List<Category>>> getCategories() async {
-    final response = await categoryApi.fetchCategories();
-    return response;
+    final table = DatabaseHelper.categoriesTable;
+    final items = await databaseHelper.getItemsFromTable(
+        table: table
+    );
+    final isDateValid = items.firstWhereOrNull((category) =>
+      category['date'] == databaseHelper.currentDate
+    );
+    if (items.isNotEmpty && isDateValid != null) {
+      final categories = items.map((item) =>
+          Category.fromDatabase(item)
+      ).toList();
+      return Success(categories);
+    } else {
+      final response = await categoryApi.fetchCategories();
+      if (response case Success()) {
+        for (final category in response.data) {
+          final map = category.mapToDatabase();
+          databaseHelper.insert(table, map);
+        }
+      }
+      return response;
+    }
   }
 }

@@ -39,8 +39,8 @@ class _ProductGridPageContent extends State<_ProductGridPageState> {
   @override
   void initState() {
     super.initState();
-    _scrollContainer.addListener(_scrollListener);
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      _scrollContainer.addListener(_scrollListener);
       _loadProducts();
     });
   }
@@ -52,7 +52,8 @@ class _ProductGridPageContent extends State<_ProductGridPageState> {
   }
 
   void _scrollListener() {
-    if (_scrollContainer.position.pixels == _scrollContainer.position.maxScrollExtent) {
+    final position = _scrollContainer.position;
+    if (position.pixels == position.maxScrollExtent) {
       _loadProducts();
     }
   }

@@ -5,5 +5,5 @@ import '../network/utils/response.dart';
 
 abstract interface class DetailsRepository {
 
-  Future<Response<Product?>> getDetails(int productId);
+  Future<Response<Product?>> getDetails(int productId, int categoryId);
 }

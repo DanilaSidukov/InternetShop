@@ -19,11 +19,11 @@ class DetailsService extends ChangeNotifier {
   bool get isLoading => _isLoading;
   String? get error => _error;
 
-  Future<void> fetchProductDetails(int productId) async {
+  Future<void> fetchProductDetails(int productId, int categoryId) async {
     _isLoading = true;
     notifyListeners();
 
-    final result = await detailsRepository.getDetails(productId);
+    final result = await detailsRepository.getDetails(productId, categoryId);
     switch (result) {
       case Success():
         _product = result.data;

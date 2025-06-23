@@ -24,6 +24,7 @@ final class ProductItem extends StatelessWidget {
               MaterialPageRoute(
                   builder: (context) =>
                       DetailsPage(
+                        categoryId: product.categoryId,
                         productId: product.productId,
                         title: product.title,
                       )

@@ -1,6 +1,8 @@
 
-class Category {
+import 'package:internet_shop/domain/db/database_helper.dart';
 
+class Category {
+  final String date;
   final int categoryId;
   final String title;
   final String? imageUrl;
@@ -8,8 +10,9 @@ class Category {
   final String fullName;
   final String categoryDescription;
 
-  const Category({
-    required this.categoryId,
+  const Category(
+    this.date,
+    {required this.categoryId,
     required this.title,
     required this.imageUrl,
     required this.hasSubcategories,
@@ -17,7 +20,20 @@ class Category {
     required this.categoryDescription,
   });
 
-  factory Category.fromJson(Map<String, dynamic> json) {
+  Map<String, dynamic> mapToDatabase() {
+    final table = DatabaseHelper.category;
+    return {
+      table.date: date,
+      table.id: categoryId,
+      table.title: title,
+      table.url: imageUrl ?? '',
+      table.hasSubcategories: hasSubcategories,
+      table.fullName: fullName,
+      table.categoryDescription: categoryDescription
+    };
+  }
+
+  factory Category.fromJson(Map<String, dynamic> json, String date) {
     return switch (json) {
       {'categoryId' : int categoryId,
       'title' : String title,
@@ -26,6 +42,7 @@ class Category {
       'fullName' : String fullName,
       'categoryDescription' : String categoryDescription
       } => Category(
+              date,
               categoryId: categoryId,
               title: title,
               imageUrl: imageUrl,
@@ -34,6 +51,29 @@ class Category {
               categoryDescription: categoryDescription
           ),
       _ => throw const FormatException('Failed to load album.')
+    };
+  }
+
+  factory Category.fromDatabase(Map<String, dynamic> json) {
+    return switch (json) {
+     {
+     'categoryId': int categoryId,
+     'date': String date,
+     'url': String imageUrl,
+     'title': String title,
+     'hasSubcategories' : int hasSubcategories,
+     'fullName' : String fullName,
+     'categoryDescription' : String categoryDescription
+    } => Category(
+       date,
+       categoryId: categoryId,
+       title: title,
+       imageUrl: imageUrl,
+       hasSubcategories: hasSubcategories,
+       fullName: fullName,
+       categoryDescription: categoryDescription
+     ),
+    _ => throw const FormatException('Failed to load album.')
     };
   }
 }

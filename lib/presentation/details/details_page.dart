@@ -8,11 +8,15 @@ import 'package:internet_shop/services/products/details_service.dart';
 import 'package:provider/provider.dart';
 
 class DetailsPage extends StatelessWidget {
+  final int categoryId;
   final int productId;
   final String title;
 
   const DetailsPage({
-    super.key, required this.productId, required this.title
+    super.key,
+    required this.productId,
+    required this.title,
+    required this.categoryId
   });
 
   @override
@@ -20,6 +24,7 @@ class DetailsPage extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => context.provider.detailsService,
       child: _DetailsPageState(
+        categoryId: categoryId,
         productId: productId,
         title: title,
       ),
@@ -28,11 +33,12 @@ class DetailsPage extends StatelessWidget {
 }
 
 class _DetailsPageState extends StatefulWidget {
+  final int categoryId;
   final int productId;
   final String title;
 
   const _DetailsPageState({
-    required this.productId, required this.title
+    required this.productId, required this.title, required this.categoryId
   });
 
   @override
@@ -62,7 +68,7 @@ class _DetailsPageContent extends State<_DetailsPageState> {
   Future<void> _loadDetails(int productId) async {
     setState(() => _isLoading = true);
     final detailsService = context.read<DetailsService>();
-    await detailsService.fetchProductDetails(productId);
+    await detailsService.fetchProductDetails(productId, widget.categoryId);
     setState(() {
       _isLoading = false;
       final error = context.read<DetailsService>().error;
