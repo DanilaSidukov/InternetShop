@@ -47,6 +47,7 @@ dependencies:
   collection: ^1.19.1
 
 dev_dependencies:
+  flutter_launcher_icons: ^0.14.4
   flutter_test:
     sdk: flutter
 
@@ -110,3 +111,12 @@ flutter_native_splash:
   web: false
   android: true
   ios: true
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/ic_shop.png"
+  background_color_ios: "#BDE4BC"
+  remove_alpha_ios: true
+  adaptive_icon_background: "#BDE4BC"
+  min_sdk_android: 21 # android min sdk min:16, default 21
