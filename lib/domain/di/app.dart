@@ -5,12 +5,13 @@ import 'package:internet_shop/domain/db/database_helper.dart';
 import 'package:internet_shop/domain/repository/category_repository_impl.dart';
 import 'package:internet_shop/domain/repository/details_repository_impl.dart';
 import 'package:internet_shop/domain/repository/products_repository_impl.dart';
-import 'package:internet_shop/services/categories/categories_service.dart';
-import 'package:internet_shop/services/products/details_service.dart';
-import 'package:internet_shop/services/products/products_service.dart';
+import 'package:internet_shop/presentation/categories/categories_service.dart';
+import 'package:internet_shop/presentation/details/details_service.dart';
+import 'package:internet_shop/presentation/products/products_service.dart';
 
 import '../../data/network/categories/category_api.dart';
 import '../../data/network/products/products_api.dart';
+import '../../presentation/authorization/authorization_service.dart';
 
 base class App {
   static final App _instance = App._internal();
@@ -53,5 +54,9 @@ base class App {
   );
   DetailsService get detailsService =>  DetailsService(
     detailsRepository: _detailsRepositoryImpl
+  );
+
+  AuthorizationService get authorizationService => AuthorizationService(
+
   );
 }

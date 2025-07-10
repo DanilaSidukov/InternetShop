@@ -21,5 +21,10 @@
             }
         }
     },
-    "something_went_wrong": "Something went wrong"
+    "something_went_wrong": "Something went wrong",
+    "authorization": "Authorization",
+    "authorization_header": "Please authorize to use the store",
+    "email": "Email",
+    "password": "Password",
+    "login": "Login"
 }

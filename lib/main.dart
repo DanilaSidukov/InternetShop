@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:internet_shop/domain/di/app.dart';
 import 'package:internet_shop/presentation/theme/theme.dart';
@@ -10,7 +9,7 @@ import 'presentation/categories/category_grid_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  debugRepaintRainbowEnabled = true;
+  //debugRepaintRainbowEnabled = true;
   await loadVariables();
   final app = App();
   await app.databaseHelper.initDatabase();

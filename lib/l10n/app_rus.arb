@@ -21,5 +21,10 @@
             }
         }
     },
-    "something_went_wrong": "Что-то пошло не так"
+    "something_went_wrong": "Что-то пошло не так",
+    "authorization": "Авторизация",
+    "authorization_header": "Чтобы изучить ассортимент магазина, пожалуйста, авторизуйесь",
+    "email": "Почта",
+    "password": "Пароль",
+    "login": "Войти"
 }
