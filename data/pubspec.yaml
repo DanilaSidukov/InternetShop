@@ -1,0 +1,19 @@
+name: data
+description: A starting point for Dart libraries or applications.
+version: 1.0.0
+publish_to: none
+# repository: https://github.com/my_org/my_repo
+
+environment:
+  sdk: ^3.10.0-13.0.dev
+
+# Add regular dependencies here.
+dependencies:
+  # path: ^1.9.0
+  collection: ^1.19.1
+  domain:
+    path: ../domain
+
+dev_dependencies:
+  lints: ^6.0.0
+  test: ^1.25.6

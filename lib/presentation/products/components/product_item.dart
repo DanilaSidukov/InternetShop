@@ -1,6 +1,6 @@
 
+import 'package:domain/models/products/product.dart';
 import 'package:flutter/material.dart';
-import 'package:internet_shop/domain/models/products/product.dart';
 import 'package:internet_shop/presentation/common/components/loader.dart';
 import 'package:internet_shop/presentation/theme/extensions.dart';
 

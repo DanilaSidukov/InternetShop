@@ -1,7 +1,6 @@
 
-
 import 'package:flutter/material.dart';
-import 'package:internet_shop/domain/di/extensions.dart';
+import 'package:internet_shop/di/extensions.dart';
 import 'package:internet_shop/presentation/details/components/product_item.dart';
 import 'package:internet_shop/presentation/details/details_service.dart';
 import 'package:internet_shop/presentation/theme/extensions.dart';

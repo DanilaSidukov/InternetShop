@@ -1,11 +1,10 @@
 
 import 'package:collection/collection.dart';
-import 'package:internet_shop/domain/db/database_helper.dart';
-
-import '../../domain/models/categories/category.dart';
-import '../../domain/network/categories/category_api.dart';
-import '../../domain/network/utils/response.dart';
-import '../../domain/repository/category_repository.dart';
+import 'package:domain/db/database_helper.dart';
+import 'package:domain/models/categories/category.dart';
+import 'package:domain/network/categories/category_api.dart';
+import 'package:domain/network/utils/response.dart';
+import 'package:domain/repository/category_repository.dart';
 
 final class CategoryRepositoryImpl implements CategoryRepository {
 

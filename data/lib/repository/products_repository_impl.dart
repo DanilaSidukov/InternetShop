@@ -1,11 +1,10 @@
 
 import 'package:collection/collection.dart';
-
-import '../../domain/db/database_helper.dart';
-import '../../domain/models/products/product.dart';
-import '../../domain/network/products/products_api.dart';
-import '../../domain/network/utils/response.dart';
-import '../../domain/repository/products_repository.dart';
+import 'package:domain/db/database_helper.dart';
+import 'package:domain/models/products/product.dart';
+import 'package:domain/network/products/products_api.dart';
+import 'package:domain/network/utils/response.dart';
+import 'package:domain/repository/products_repository.dart';
 
 final class ProductsRepositoryImpl implements ProductsRepository {
 

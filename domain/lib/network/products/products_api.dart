@@ -1,9 +1,9 @@
 
 import 'dart:convert';
 
-import 'package:internet_shop/domain/models/products/product.dart';
 import 'package:intl/intl.dart';
 
+import '../../models/products/product.dart';
 import '../base_api.dart';
 import '../utils/response.dart';
 

@@ -1,6 +1,6 @@
 
-import '../../domain/network/utils/response.dart';
 import '../models/products/product.dart';
+import '../network/utils/response.dart';
 
 abstract interface class DetailsRepository {
 

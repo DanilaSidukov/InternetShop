@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:internet_shop/domain/di/app.dart';
 import 'package:internet_shop/presentation/theme/theme.dart';
 import 'package:internet_shop/src/generated/i18n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
+import 'di/app.dart';
 import 'presentation/categories/category_grid_page.dart';
 
 void main() async {

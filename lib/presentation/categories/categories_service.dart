@@ -1,10 +1,9 @@
 import 'dart:async';
 
+import 'package:domain/models/categories/category.dart';
+import 'package:domain/network/utils/response.dart';
+import 'package:domain/repository/category_repository.dart';
 import 'package:flutter/foundation.dart' hide Category;
-import 'package:internet_shop/domain/repository/category_repository.dart';
-
-import '../../domain/models/categories/category.dart';
-import '../../domain/network/utils/response.dart';
 
 class CategoriesService extends ChangeNotifier {
 

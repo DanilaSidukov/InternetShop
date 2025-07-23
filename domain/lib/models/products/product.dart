@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:internet_shop/domain/db/database_helper.dart';
+import '../../db/database_helper.dart';
 
 class Product {
   final int categoryId;

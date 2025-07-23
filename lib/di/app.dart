@@ -1,16 +1,14 @@
-import 'package:internet_shop/data/repository/category_repository_impl.dart';
-import 'package:internet_shop/data/repository/details_repository_impl.dart';
-import 'package:internet_shop/data/repository/products_repository_impl.dart';
-import 'package:internet_shop/domain/db/database_helper.dart';
-import 'package:internet_shop/domain/repository/category_repository.dart';
-import 'package:internet_shop/domain/repository/details_repository.dart';
-import 'package:internet_shop/domain/repository/products_repository.dart';
+import 'package:data/repository/category_repository_impl.dart';
+import 'package:data/repository/details_repository_impl.dart';
+import 'package:data/repository/products_repository_impl.dart';
+import 'package:domain/db/database_helper.dart';
+import 'package:domain/network/categories/category_api.dart';
+import 'package:domain/network/products/products_api.dart';
+import 'package:domain/repository/category_repository.dart';
 import 'package:internet_shop/presentation/categories/categories_service.dart';
 import 'package:internet_shop/presentation/details/details_service.dart';
 import 'package:internet_shop/presentation/products/products_service.dart';
 
-import '../../domain/network/categories/category_api.dart';
-import '../../domain/network/products/products_api.dart';
 import '../../presentation/authorization/authorization_service.dart';
 
 base class App {
