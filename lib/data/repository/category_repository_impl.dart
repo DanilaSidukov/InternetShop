@@ -2,10 +2,10 @@
 import 'package:collection/collection.dart';
 import 'package:internet_shop/domain/db/database_helper.dart';
 
-import '../../data/network/categories/category_api.dart';
-import '../../data/network/utils/response.dart';
-import '../../data/repository/category_repository.dart';
-import '../../models/categories/category.dart';
+import '../../domain/models/categories/category.dart';
+import '../../domain/network/categories/category_api.dart';
+import '../../domain/network/utils/response.dart';
+import '../../domain/repository/category_repository.dart';
 
 final class CategoryRepositoryImpl implements CategoryRepository {
 

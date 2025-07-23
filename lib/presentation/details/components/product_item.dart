@@ -3,7 +3,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:internet_shop/presentation/theme/extensions.dart';
 
-import '../../../models/products/product.dart';
+import '../../../domain/models/products/product.dart';
 
 List<Widget> productDetailsItems(BuildContext context, Product? product) {
   final typography = Theme.of(context).textTheme;

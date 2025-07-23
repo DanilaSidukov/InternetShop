@@ -1,6 +1,6 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
-import 'package:internet_shop/data/network/utils/response.dart';
+import 'package:internet_shop/domain/network/utils/response.dart';
 
 abstract base class BaseApi {
   static final String _baseUrl = 'http://onlinestore.whitetigersoft.ru/api/';

@@ -1,10 +1,9 @@
 
-import 'package:internet_shop/models/products/product.dart';
-
-import '../../data/network/products/products_api.dart';
-import '../../data/network/utils/response.dart';
-import '../../data/repository/details_repository.dart';
-import '../db/database_helper.dart';
+import '../../domain/db/database_helper.dart';
+import '../../domain/models/products/product.dart';
+import '../../domain/network/products/products_api.dart';
+import '../../domain/network/utils/response.dart';
+import '../../domain/repository/details_repository.dart';
 
 final class DetailsRepositoryImpl implements DetailsRepository {
 

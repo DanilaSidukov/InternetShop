@@ -1,9 +1,9 @@
 
 import 'package:flutter/cupertino.dart';
-import 'package:internet_shop/data/repository/details_repository.dart';
+import 'package:internet_shop/domain/repository/details_repository.dart';
 
-import '../../data/network/utils/response.dart';
-import '../../models/products/product.dart';
+import '../../domain/models/products/product.dart';
+import '../../domain/network/utils/response.dart';
 
 class DetailsService extends ChangeNotifier {
 

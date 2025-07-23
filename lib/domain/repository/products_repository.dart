@@ -1,7 +1,6 @@
 
-import 'package:internet_shop/models/products/product.dart';
-
-import '../network/utils/response.dart';
+import '../../domain/network/utils/response.dart';
+import '../models/products/product.dart';
 
 abstract interface class ProductsRepository {
 

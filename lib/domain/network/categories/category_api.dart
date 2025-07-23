@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:intl/intl.dart';
 
-import '../../../models/categories/category.dart';
+import '../../../domain/models/categories/category.dart';
 import '../base_api.dart';
 import '../utils/response.dart';
 

@@ -1,7 +1,7 @@
 
 import 'dart:convert';
 
-import 'package:internet_shop/models/products/product.dart';
+import 'package:internet_shop/domain/models/products/product.dart';
 import 'package:intl/intl.dart';
 
 import '../base_api.dart';
