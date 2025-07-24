@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:internet_shop/di/extensions.dart';
 import 'package:internet_shop/presentation/products/products_service.dart';
@@ -16,7 +15,7 @@ class ProductGridPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => context.provider.productsService,
-      child: _ProductGridPageState(categoryId: categoryId)
+      child: _ProductGridPageState(categoryId: categoryId),
     );
   }
 }
@@ -30,32 +29,34 @@ class _ProductGridPageState extends StatefulWidget {
   State<StatefulWidget> createState() => _ProductGridPageContent();
 }
 
-class _ProductGridPageContent extends State<_ProductGridPageState> {
-
+class _ProductGridPageContent extends State<_ProductGridPageState>
+    with SingleTickerProviderStateMixin {
   bool _isLoading = false;
   bool _hasMore = true;
-  final ScrollController _scrollContainer = ScrollController();
+  late AnimationController _loaderController;
+  late Animation<Offset> _offsetAnimation;
 
   @override
   void initState() {
     super.initState();
+    _loaderController = AnimationController(
+      duration: const Duration(milliseconds: 700),
+      vsync: this,
+    );
+    _offsetAnimation = Tween<Offset>(
+      begin: const Offset(0.0, 1.0),
+      end: Offset.zero,
+    ).animate(_loaderController);
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _scrollContainer.addListener(_scrollListener);
       _loadProducts();
+      _loaderController.value = 0.0;
     });
   }
 
   @override
   void dispose() {
-    _scrollContainer.dispose();
+    _loaderController.dispose();
     super.dispose();
-  }
-
-  void _scrollListener() {
-    final position = _scrollContainer.position;
-    if (position.pixels == position.maxScrollExtent) {
-      _loadProducts();
-    }
   }
 
   Future<void> _loadProducts() async {
@@ -68,22 +69,24 @@ class _ProductGridPageContent extends State<_ProductGridPageState> {
     setState(() {
       if (isProductsEmpty) {
         _isLoading = true;
+      } else {
+        _loaderController.forward();
       }
     });
-    await productsService.fetchProducts(
-        widget.categoryId,
-        currentLength
-    );
+    await productsService.fetchProducts(widget.categoryId, currentLength);
     setState(() {
       _isLoading = false;
+      if (!isProductsEmpty) {
+        _loaderController.reverse();
+      }
       final productsLength = context.read<ProductsService>().products.length;
       _hasMore = productsLength > currentLength;
       if (productsService.error != null) {
         ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-                duration: Durations.extralong2,
-                content: Text(context.strings.something_went_wrong)
-            )
+          SnackBar(
+            duration: Durations.extralong2,
+            content: Text(context.strings.something_went_wrong),
+          ),
         );
       }
     });
@@ -93,8 +96,8 @@ class _ProductGridPageContent extends State<_ProductGridPageState> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-          title: Text(context.strings.products)
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: Text(context.strings.products),
       ),
       body: _buildBody(),
     );
@@ -105,31 +108,52 @@ class _ProductGridPageContent extends State<_ProductGridPageState> {
       return const Center(child: CircularProgressIndicator());
     }
     final products = context.select(
-        (ProductsService service) => service.products
+      (ProductsService service) => service.products,
     );
     final length = products.length;
-    return ListView.separated(
-      controller: _scrollContainer,
-      padding: const EdgeInsets.symmetric(
-          vertical: _verticalPadding,
-          horizontal: _horizontalPadding
-      ),
-      itemCount: length + (_hasMore ? 1 : 0),
-      separatorBuilder: (context, index) => const SizedBox(
-          height: _separatorHeight
-      ),
-      itemBuilder: (BuildContext context, int index) {
-        if (index >= products.length) {
-          return const Center(
-            child: Padding(
-              padding: EdgeInsets.all(_loaderPadding),
-              child: CircularProgressIndicator()
-            )
-          );
-        }
-        final product = products[index];
-        return ProductItem(product, index >= length - 1);
-      },
+    return NotificationListener<ScrollNotification>(
+        onNotification: (notification) {
+      if (notification is ScrollEndNotification &&
+          notification.metrics.extentAfter <= 400) {
+        _loadProducts();
+      }
+      return false;
+    },
+    child: Stack(
+      children: [
+        ListView.separated(
+          padding: const EdgeInsets.symmetric(
+            vertical: _verticalPadding,
+            horizontal: _horizontalPadding,
+          ),
+          itemCount: length,
+          separatorBuilder:
+              (context, index) => const SizedBox(height: _separatorHeight),
+          itemBuilder: (BuildContext context, int index) {
+            final product = products[index];
+            return ProductItem(product, index >= length - 1);
+          },
+        ),
+        SlideTransition(
+          position: _offsetAnimation,
+          child: Padding(
+            padding: EdgeInsets.only(
+              bottom:
+                  MediaQuery.of(context).padding.bottom + _loaderBottomPadding,
+            ),
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: SizedBox(
+                height: _loaderHeight,
+                child: const Center(
+                    child: CircularProgressIndicator()
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
+    )
     );
   }
 }
@@ -137,4 +161,5 @@ class _ProductGridPageContent extends State<_ProductGridPageState> {
 const double _separatorHeight = 16;
 const double _verticalPadding = 20;
 const double _horizontalPadding = 12;
-const double _loaderPadding = 8.0;
+const double _loaderBottomPadding = 30.0;
+const double _loaderHeight = 40.0;
